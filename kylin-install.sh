@@ -59,4 +59,4 @@ unionfs "var"
 
 
 
-glib-compile-schemas $app_path/$app_name/usr/share/glib-2.0/schemas  #gesetting
+glib-compile-schemas $app_path/$app_name/usr/share/glib-2.0/schemas  #gsetting
