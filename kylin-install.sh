@@ -1,17 +1,19 @@
 #!/bin/bash
 
-app_name=$1
 
-if [ -z "$app_name" ]; then
+if [ -z "$1" ]; then
     echo "kylin-container-app name is empty"
     exit 8
 fi
 
+tar_name=$1
+app_name=${tar_name%%.*}
+echo $app_name
 username=$(users)
 app_path="/kylin-container"
 
 echo $app_path
-
+tar xvf $1
 
 if [ ! -d $app_path ];then
 	mkdir $app_path  #安装目录创建
@@ -31,6 +33,7 @@ else
 	echo $app_name已安装，覆盖
 	umount $app_path/$app_name/unionfs/etc
 	umount $app_path/$app_name/unionfs/var
+	umount $app_path/$app_name/unionfs/usr
 
 	rm $app_path/$app_name  -r
 	cp ./$app_name  $app_path/$app_name  -r
@@ -55,8 +58,9 @@ function unionfs
 
 unionfs "etc"
 unionfs "var"
+unionfs "usr"
 
 
 
 
-glib-compile-schemas $app_path/$app_name/usr/share/glib-2.0/schemas  #gsetting
+glib-compile-schemas $app_path/$app_name/usr/share/glib-2.0/schemas  # GSettings
